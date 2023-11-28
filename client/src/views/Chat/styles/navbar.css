@@ -5,6 +5,7 @@
     font-family: 'Helvetica Neue', sans-serif;
     padding: 0.8rem 2rem;
     transition: all 0.3s ease;
+    margin-top: 0px !important;
 }
 
 .navbar-brand {

@@ -1,20 +1,38 @@
-import ChatHeader from './components/Layouts/ChatHeader'
 import ChatDashboardWrap from './components/Layouts/ChatDashboardWrap'
 import SendFeedBack from './components/SendFeedBack'
 import SummaryBox from './partials/SummaryBox'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import ChatHeadAudio from './components/Layouts/ChatHeadAudio'
 
 const ChatDashboard = () => {
 
     // states
+    const [textContent, setTextContent] = useState([]);
     const [textbox, setTextbox] = useState({ propertyOne: '', propertyTwo: '', propertyThree: '', propertyFour: '', propertyFive: '' });
+
+
+    useEffect(() => {
+        if (textContent.length) {
+            setTextbox({
+                propertyOne: textContent[0],
+                propertyTwo: textContent[1],
+                propertyThree: textContent[2],
+                propertyFour: textContent[3],
+                propertyFive: textContent[4],
+            })
+        }
+    }, [textContent])
+
+    console.log(textbox, 'txt');
 
     return (
         <ChatDashboardWrap>
 
             <div className="app-container">
 
-                <ChatHeader />
+                <ChatHeadAudio
+                    setTextContent={setTextContent}
+                />
 
                 <SummaryBox
                     label='Hulpvraag patiënt (of contactreden)'

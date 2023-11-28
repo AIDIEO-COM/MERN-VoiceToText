@@ -93,6 +93,8 @@ const SignUp = () => {
                                 </form>
 
                                 <Link to="/" className="info-link">Terug</Link>
+
+                                <Link to="/login" className="info-link">Login</Link>
                             </div>
                         </div>
                     </div>
