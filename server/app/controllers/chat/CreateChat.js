@@ -40,14 +40,14 @@ const getAudioToText = async (path, fileName) => {
             }
         });
 
-        return response.data;
+        return response.data.text;
     } catch (error) {
         throw new ApiError(httpStatus.BAD_REQUEST, 'Error during audio transcription');
     }
 }
 
 // get open ai chat message
-const getChatMessage = async (textMsg, filePath) => {
+const getChatMessage = async (textMsg, filePath, totalChunk,) => {
     try {
         const chatCompletion = await openai.chat.completions.create({
             messages: [
@@ -60,7 +60,15 @@ const getChatMessage = async (textMsg, filePath) => {
         console.error('OpenAI API Error:', error);
         throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Error during chat completion');
     } finally {
+        // remove main audio file
         removeFile(filePath);
+
+        // removing chunks file
+        if (totalChunk > 0) {
+            for (let i = 1; i <= totalChunk; i++) {
+                removeFile(`public/output/chunk_${i}.wav`);
+            }
+        }
     }
 }
 
@@ -99,22 +107,64 @@ const getPromptMessage = async (transcript) => {
     return system_prompt_new;
 }
 
+// Function to split audio file into chunks
+const splitAudio = async (filePath, outputDirectory = 'public/output', chunkSize = 24 * 1024 * 1024) => {
+    try {
+        const audioBuffer = fs.readFileSync(filePath);
+        const totalChunks = Math.ceil(audioBuffer.length / chunkSize);
+        let totalChunk = 0;
+
+        for (let i = 0; i < totalChunks; i++) {
+            totalChunk += 1;
+            const start = i * chunkSize;
+            const end = (i + 1) * chunkSize;
+            const chunkBuffer = audioBuffer.slice(start, end);
+
+            const chunkFileName = `${outputDirectory}/chunk_${i + 1}.wav`;
+            fs.writeFileSync(chunkFileName, chunkBuffer);
+        }
+        console.log('Audio file successfully split into chunks.');
+        return totalChunk;
+    } catch (error) {
+        console.error('Error splitting audio file:', error);
+    }
+};
+
 const CreateChat = catchAsync(
     async (req, res) => {
 
         // file paths
         const filePath = req.file.path;
         const fileName = req.file.filename;
+        const fileSizeInMB = req.file.size / (1024 * 1024);
 
-        // getting text from audio
-        const textData = await getAudioToText(filePath, fileName);
-        if (!textData) throw new ApiError(httpStatus.BAD_REQUEST, 'Error to get text from audio!');
+        let text;
+        let totalChunk;
+
+        if (fileSizeInMB > 24) {
+            totalChunk = await splitAudio(filePath);
+
+            let fullText = '';
+
+            // Transcribe each chunk and append to fullText
+            for (let i = 1; i <= totalChunk; i++) {
+                const chunkFilePath = `public/output/chunk_${i}.wav`;
+                const chunkText = await getAudioToText(chunkFilePath, `chunk_${i}.wav`);
+                fullText += chunkText + ' '; // Assuming you want a space between chunk texts
+            }
+
+            // Set the full text
+            text = fullText.trim();
+        } else {
+            // getting text from audio
+            text = await getAudioToText(filePath, fileName);
+        }
 
         // promtmsg
-        const promtMsg = await getPromptMessage(textData.text);
+        const promtMsg = await getPromptMessage(text);
 
         // get assistant response
-        const chatData = await getChatMessage(promtMsg, filePath);
+        const chatData = await getChatMessage(promtMsg, filePath, totalChunk);
 
         // Split the content into lines
         const lines = chatData.content.split('\n');
@@ -140,7 +190,7 @@ const CreateChat = catchAsync(
             success: true,
             message: `Chat retrived successfully!`,
             data: {
-                textData,
+                textData: text,
                 chat: chatData,
                 array: [
                     hulpvraagValue,
