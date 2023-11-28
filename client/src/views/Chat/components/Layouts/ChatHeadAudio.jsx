@@ -1,18 +1,12 @@
 import AudioReactRecorder from 'audio-react-recorder';
 import { useEffect, useState } from 'react';
-import { formatTime } from '../../../../hooks/helpers';
 import { axiosPOST } from '../../../../hooks/axiosMethods';
 import { useAtom } from 'jotai';
 import { atomToken } from '../../../../configs/states/atomState';
+import { ENUM_STATUS } from '../../../../configs/constants';
+import StatusMessages from '../../partials/StatusMessages';
 
-const ENUM_STATUS = {
-    NONE: 'none',
-    START: 'start',
-    PAUSE: 'pause',
-    STOP: 'stop'
-}
-
-const ChatHeadAudio = ({ setTextContent }) => {
+const ChatHeadAudio = ({ apiCallSuccess, setApiCalSuccess, setTextContent }) => {
 
     // atom states
     const [token] = useAtom(atomToken);
@@ -20,14 +14,10 @@ const ChatHeadAudio = ({ setTextContent }) => {
     // states
     // eslint-disable-next-line no-unused-vars
     const [audio, setAudio] = useState(null);
-    const [apiCallSuccess, setApiCalSuccess] = useState(false);
     const [recordState, setRecordState] = useState(ENUM_STATUS.NONE);
     const [loading, setLoading] = useState(false);
-    const [loadingDots, setLoadingDots] = useState(0);
     const [startTime, setStartTime] = useState(null);
     const [totalElapsedTime, setTotalElapsedTime] = useState(0);
-
-    const [content, setContent] = useState();
 
     // handler
     const startRecording = () => {
@@ -61,8 +51,8 @@ const ChatHeadAudio = ({ setTextContent }) => {
 
             try {
                 const response = await axiosPOST('chat', formData, setLoading, token);
-                setApiCalSuccess(response.success)
-                setContent(response.data?.chat?.content)
+                setApiCalSuccess(response.success);
+                setTextContent(response.data?.array)
             } catch (error) {
                 setLoading(false);
                 console.error('Error sending audio to the server:', error);
@@ -87,43 +77,6 @@ const ChatHeadAudio = ({ setTextContent }) => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [recordState]);
-
-    // loading dots
-    useEffect(() => {
-        const interval = setInterval(() => {
-            // Update loading dots
-            setLoadingDots((prevDots) => (prevDots + 1) % 4);
-
-            // Reset loading after 4 seconds
-            if (loadingDots === 3) {
-                setLoadingDots(0);
-            }
-        }, 1000);
-
-        // Clear interval when the component unmounts
-        return () => clearInterval(interval);
-    }, [loadingDots]);
-
-    // useEffect to set content
-    useEffect(() => {
-        if (content && apiCallSuccess) {
-            // Use regular expression to extract the "You" object
-            const match = content.match(/You:\s*([\s\S]*?)\}/);
-
-            if (match && match[1]) {
-                // Extract the matched JSON object
-                const youValue = match[1] + '}';
-
-                // Parse the JSON object
-                const youObject = JSON.parse(youValue);
-                const arrayOfObjects = Object.values(youObject);
-                setTextContent(arrayOfObjects);
-            } else {
-                console.log('No match found.');
-            }
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [content, apiCallSuccess])
 
     return (
         <>
@@ -194,7 +147,7 @@ const ChatHeadAudio = ({ setTextContent }) => {
                 </div>
             </div>
 
-            <div className="mt-3 mb-3 text-center">
+            {/* <div className="mt-3 mb-3 text-center">
                 {((recordState !== ENUM_STATUS.NONE && !loading) && (recordState !== ENUM_STATUS.NONE && !apiCallSuccess)) &&
                     <>
                         Start Recording {totalElapsedTime > 0 && formatTime(totalElapsedTime)}
@@ -203,7 +156,13 @@ const ChatHeadAudio = ({ setTextContent }) => {
 
                 {(loading) && 'Bezig met verwerken⌛️' + '.'.repeat(loadingDots)}
                 {apiCallSuccess && 'Bekijk het resultaat! 🚀'}
-            </div>
+            </div> */}
+            <StatusMessages
+                loading={loading}
+                apiCallSuccess={apiCallSuccess}
+                recordState={recordState}
+                totalElapsedTime={totalElapsedTime}
+            />
 
             <div id="noSoundMessage" className="mt-3 mb-3 text-center warning-message" style={{ display: 'none' }}>
                 Geen geluid gedetecteerd voor 10 seconden.

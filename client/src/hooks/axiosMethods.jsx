@@ -26,11 +26,17 @@ export const axiosGET = async (url, setLoad, token) => {
 // post method
 export const axiosPOST = async (url, data, setLoad, token) => {
     setLoad(true);
-    const response = await axios.post(`${mainUrl}${url}`, data, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    });
+    let response;
+    if (token) {
+        response = await axios.post(`${mainUrl}${url}`, data, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+    } else {
+        response = await axios.post(`${mainUrl}${url}`, data);
+    }
+
     setLoad(false);
     return response.data;
 }

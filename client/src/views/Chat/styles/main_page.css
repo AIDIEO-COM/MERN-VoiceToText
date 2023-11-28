@@ -51,7 +51,7 @@
 }
 
 .feedback-button {
-    display: none;
+    display: block !important;
     color: #fff;
     background-color: #3898ec;
     border: none;

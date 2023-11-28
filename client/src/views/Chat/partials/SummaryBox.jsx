@@ -1,14 +1,13 @@
 import { useRef } from "react";
 
-const SummaryBox = ({ label, id, value, onChange }) => {
+const SummaryBox = ({ label, id, value, onChange, apiCallSuccess, modalId }) => {
 
     // ref textarea
     const textareaRef = useRef(null);
 
     // copy text action
-    const handleCopy = () => {
-        textareaRef.current.select();
-        document.execCommand('copy');
+    const handleCopy = async () => {
+        await navigator.clipboard.writeText(value);
     };
 
     return (
@@ -20,6 +19,7 @@ const SummaryBox = ({ label, id, value, onChange }) => {
                 className="form-control"
                 value={value}
                 onChange={onChange}
+                ref={textareaRef}
             >
             </textarea>
 
@@ -30,15 +30,16 @@ const SummaryBox = ({ label, id, value, onChange }) => {
                     <i className="far fa-copy"></i>
                 </button>
 
-                <button
+                {apiCallSuccess && <button
                     type="button"
                     className="feedback-button"
                     data-bs-toggle="modal"
-                    data-bs-target="#feedbackModal1"
+                    data-bs-target={modalId}
                 >
-                    <i className="fas fa-comment-dots"></i>
+                    <i className="fas fa-comment-dots" style={{ marginRight: '3px' }}></i>
                     Feedback
-                </button>
+                </button>}
+
             </div>
 
         </div>

@@ -116,6 +116,25 @@ const CreateChat = catchAsync(
         // get assistant response
         const chatData = await getChatMessage(promtMsg, filePath);
 
+        // Split the content into lines
+        const lines = chatData.content.split('\n');
+
+        // Extract user messages
+        // const userMessages = lines.filter(line => line.startsWith('User:'));
+        // const youMessages = lines.filter(line => line.startsWith('You:'));
+
+        const extractValue = (key) => {
+            const index = lines.findIndex(line => line.includes(`"${key}":`));
+            return index !== -1 ? lines[index].replace(/.*: "(.*)",?$/, "$1").trim().replace(/\\n/g, "\n") : null;
+        };
+
+        // Extract values for specific keys
+        const hulpvraagValue = extractValue("Hulpvraag patiënt (of contactreden)");
+        const beloopValue = extractValue("Functioneringsproblemen en beloop");
+        const medischeValue = extractValue("Medische gezondheidsdeterminanten");
+        const omgevingsValue = extractValue("Omgevingsdeterminanten");
+        const persoonlijkeValue = extractValue("Persoonlijke determinanten");
+
         sendResponse(res, {
             statusCode: httpStatus.OK,
             success: true,
@@ -123,6 +142,13 @@ const CreateChat = catchAsync(
             data: {
                 textData,
                 chat: chatData,
+                array: [
+                    hulpvraagValue,
+                    beloopValue,
+                    medischeValue,
+                    omgevingsValue,
+                    persoonlijkeValue,
+                ],
             }
         });
     }

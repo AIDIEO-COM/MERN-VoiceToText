@@ -1,5 +1,12 @@
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 
+export const ENUM_STATUS = {
+    NONE: 'none',
+    START: 'start',
+    PAUSE: 'pause',
+    STOP: 'stop'
+}
+
 export const navItems = [
     { id: 1, text: 'Aanpak', href: '#aanpak' },
     { id: 2, text: 'Voordelen', href: '#voordelen' },
@@ -29,4 +36,12 @@ export const checkpoints = [
         icon: <IoIosCheckmarkCircleOutline />,
         text: "<strong>Professioneel en Precies:</strong> Ons AI-model is getraind in fysiotherapeutisch jargon, zodat elke interactie vakkundig en in de juiste terminologie wordt vastgelegd. Daarnaast wordt alleen de relevante informatie uit het gesprek gefilterd.",
     },
+];
+
+export const modalData = [
+    { title: 'Hulpvraag patiënt (of contactreden)', id: 'feedbackModal1', label: 'feedbackModal1Label' },
+    { title: 'Functioneringsproblemen en beloop', id: 'feedbackModal2', label: 'feedbackModal2Label' },
+    { title: 'Medische gezondheidsdeterminanten', id: 'feedbackModal3', label: 'feedbackModal3Label' },
+    { title: 'Omgevingsdeterminanten', id: 'feedbackModal4', label: 'feedbackModal4Label' },
+    { title: 'Persoonlijke determinanten', id: 'feedbackModal5', label: 'feedbackModal5Label' },
 ];
