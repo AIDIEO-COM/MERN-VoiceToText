@@ -5,6 +5,7 @@ import { useAtom } from 'jotai';
 import { atomToken } from '../../../../configs/states/atomState';
 import { ENUM_STATUS } from '../../../../configs/constants';
 import StatusMessages from '../../partials/StatusMessages';
+import { setOnLocalStorage } from '../../../../hooks/helpers';
 
 const ChatHeadAudio = ({ apiCallSuccess, setApiCalSuccess, setTextContent }) => {
 
@@ -52,7 +53,8 @@ const ChatHeadAudio = ({ apiCallSuccess, setApiCalSuccess, setTextContent }) => 
             try {
                 const response = await axiosPOST('chat', formData, setLoading, token);
                 setApiCalSuccess(response.success);
-                setTextContent(response.data?.array)
+                setTextContent(response.data?.array);
+                setOnLocalStorage('responses', JSON.stringify(response.data?.array));
             } catch (error) {
                 setLoading(false);
                 console.error('Error sending audio to the server:', error);

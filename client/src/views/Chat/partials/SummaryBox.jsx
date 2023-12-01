@@ -17,7 +17,7 @@ const SummaryBox = ({ label, id, value, onChange, apiCallSuccess, modalId }) => 
                 id={id}
                 rows="4"
                 className="form-control"
-                value={value}
+                defaultValue={value}
                 onChange={onChange}
                 ref={textareaRef}
             >

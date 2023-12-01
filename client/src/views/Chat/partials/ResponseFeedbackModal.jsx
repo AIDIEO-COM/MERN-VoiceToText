@@ -1,5 +1,9 @@
+import { useState } from "react"
 
 const ResponseFeedbackModal = ({ title, id, label }) => {
+
+    const [feedback, setFeedback] = useState('')
+
     return (
         <div className="modal fade" id={id} tabIndex="-1" aria-labelledby={label} aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered modal-lg">
@@ -14,9 +18,16 @@ const ResponseFeedbackModal = ({ title, id, label }) => {
                             <label htmlFor="nauwkeurigheid1" className="elegant-label" style={{ fontWeight: 400 }}>Nauwkeurigheid (%)&nbsp;</label>
                             <input type="number" id="nauwkeurigheid1" name="nauwkeurigheid1" min="0" max="100" value="100"
                                 className="elegant-input" />
+
                             <label htmlFor="extraOpmerkingen1" className="elegant-label" style={{ fontWeight: 400 }}>&nbsp;Opmerkingen</label>
-                            <textarea id="extraOpmerkingen1" name="extraOpmerkingen1" rows="2"
-                                className="form-control elegant-textarea"></textarea>
+                            <textarea
+                                id="extraOpmerkingen1"
+                                name="extraOpmerkingen1"
+                                rows="2"
+                                className="form-control elegant-textarea"
+                                value={feedback}
+                                onChange={(e) => setFeedback(e.target.value)}
+                            ></textarea>
                         </form>
                     </div>
                     <div className="modal-footer elegant-footer">

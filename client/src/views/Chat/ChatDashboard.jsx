@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import ChatHeadAudio from './components/Layouts/ChatHeadAudio'
 import ResponseFeedbackModal from './partials/ResponseFeedbackModal'
 import { modalData } from '../../configs/constants'
+import { getFromLocalStorage } from '../../hooks/helpers'
 
 const ChatDashboard = () => {
 
@@ -15,6 +16,9 @@ const ChatDashboard = () => {
 
     // setting state after success api
     useEffect(() => {
+
+        const data = JSON.parse(getFromLocalStorage('responses'));
+
         if (textContent.length) {
             setTextbox({
                 propertyOne: textContent[0],
@@ -23,6 +27,16 @@ const ChatDashboard = () => {
                 propertyFour: textContent[3],
                 propertyFive: textContent[4],
             })
+        } else if (data.length) {
+            setTextbox({
+                propertyOne: data[0],
+                propertyTwo: data[1],
+                propertyThree: data[2],
+                propertyFour: data[3],
+                propertyFive: data[4],
+            })
+        } else {
+            setTextContent([]);
         }
     }, [textContent])
 
@@ -41,7 +55,7 @@ const ChatDashboard = () => {
                     label='Hulpvraag patiënt (of contactreden)'
                     id='textbox1'
                     value={textbox.propertyOne}
-                    onChange={(e) => setTextbox({ ...textbox, propertyOne: e.target.value })}
+                    // onChange={(e) => setTextbox({ ...textbox, propertyOne: e.target.value })}
                     apiCallSuccess={apiCallSuccess}
                     modalId='#feedbackModal1'
                 />
@@ -50,7 +64,7 @@ const ChatDashboard = () => {
                     label='Functioneringsproblemen en beloop'
                     id='textbox2'
                     value={textbox.propertyTwo}
-                    onChange={(e) => setTextbox({ ...textbox, propertyTwo: e.target.value })}
+                    // onChange={(e) => setTextbox({ ...textbox, propertyTwo: e.target.value })}
                     apiCallSuccess={apiCallSuccess}
                     modalId='#feedbackModal2'
                 />
@@ -59,7 +73,7 @@ const ChatDashboard = () => {
                     label='Medische gezondheidsdeterminanten'
                     id='textbox3'
                     value={textbox.propertyThree}
-                    onChange={(e) => setTextbox({ ...textbox, propertyThree: e.target.value })}
+                    // onChange={(e) => setTextbox({ ...textbox, propertyThree: e.target.value })}
                     apiCallSuccess={apiCallSuccess}
                     modalId='#feedbackModal3'
                 />
@@ -68,7 +82,7 @@ const ChatDashboard = () => {
                     label='Omgevingsdeterminanten'
                     id='textbox4'
                     value={textbox.propertyFour}
-                    onChange={(e) => setTextbox({ ...textbox, propertyFour: e.target.value })}
+                    // onChange={(e) => setTextbox({ ...textbox, propertyFour: e.target.value })}
                     apiCallSuccess={apiCallSuccess}
                     modalId='#feedbackModal4'
                 />
@@ -77,7 +91,7 @@ const ChatDashboard = () => {
                     label='Persoonlijke determinanten'
                     id='textbox5'
                     value={textbox.propertyFive}
-                    onChange={(e) => setTextbox({ ...textbox, propertyFive: e.target.value })}
+                    // onChange={(e) => setTextbox({ ...textbox, propertyFive: e.target.value })}
                     apiCallSuccess={apiCallSuccess}
                     modalId='#feedbackModal5'
                 />
