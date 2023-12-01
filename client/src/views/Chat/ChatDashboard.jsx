@@ -36,7 +36,7 @@ const ChatDashboard = () => {
                 propertyFour: textContent[3],
                 propertyFive: textContent[4],
             })
-        } else if (data.length) {
+        } else if (data && data.length) {
             setTextbox({
                 propertyOne: data[0],
                 propertyTwo: data[1],
