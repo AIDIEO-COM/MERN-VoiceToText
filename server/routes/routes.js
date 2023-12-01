@@ -3,6 +3,7 @@ const router = express.Router();
 
 import authRouter from '../app/routers/authRouter.js'
 import chatRouter from '../app/routers/chatRouter.js'
+import feedbackRouter from '../app/routers/feedbackRouter.js'
 
 const apiRoutes = [
     {
@@ -12,6 +13,10 @@ const apiRoutes = [
     {
         path: '/chat',
         route: chatRouter,
+    },
+    {
+        path: '/feedback',
+        route: feedbackRouter,
     },
 ];
 

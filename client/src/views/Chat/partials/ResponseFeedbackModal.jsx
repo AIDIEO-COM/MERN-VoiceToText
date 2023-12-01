@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { useState } from "react";
 
-const ResponseFeedbackModal = ({ title, id, label }) => {
+const ResponseFeedbackModal = ({ title, id, label, sendFeedbackAPI, loading }) => {
 
-    const [feedback, setFeedback] = useState('')
+    // states
+    const [feedback, setFeedback] = useState('');
 
     return (
         <div className="modal fade" id={id} tabIndex="-1" aria-labelledby={label} aria-hidden="true">
@@ -33,10 +34,12 @@ const ResponseFeedbackModal = ({ title, id, label }) => {
                     <div className="modal-footer elegant-footer">
                         <button type="button" className="btn btn-secondary elegant-btn-secondary" data-bs-dismiss="modal">Sluiten
                         </button>
-                        <button type="button" className="btn btn-primary elegant-btn-primary"
-                        // onclick="sendCategoryFeedback(1)"
+                        <button
+                            type="button"
+                            className="btn btn-primary elegant-btn-primary"
+                            onClick={() => sendFeedbackAPI(feedback, setFeedback)}
                         >
-                            Verzenden
+                            {loading ? 'Sending...' : 'Verzenden'}
                         </button>
                     </div>
                 </div>

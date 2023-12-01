@@ -1,5 +1,5 @@
 
-const FeedbackModal = ({ id, label }) => {
+const FeedbackModal = ({ feedback, id, label, loading, setFeedback, sendFeedbackAPI }) => {
     return (
         <div className="modal fade" id={id} tabIndex="-1" aria-labelledby={label} aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered modal-lg">
@@ -12,7 +12,16 @@ const FeedbackModal = ({ id, label }) => {
                     <div className="modal-body elegant-body">
                         <form id="feedbackForm" className="feedback-form">
                             <label htmlFor="algemeneOpmerkingen" className="elegant-label">Algemene Opmerkingen</label>
-                            <textarea id="algemeneOpmerkingen" name="algemeneOpmerkingen" rows="4" className="form-control elegant-textarea"></textarea>
+                            <textarea
+                                id="algemeneOpmerkingen"
+                                name="algemeneOpmerkingen"
+                                rows="4"
+                                className="form-control elegant-textarea"
+                                value={feedback}
+                                onChange={(e) => setFeedback(e.target.value)}
+                            >
+
+                            </textarea>
                             <input type="hidden" id="summaryText" name="summaryText" />
                             <input type="hidden" id="dateTime" name="dateTime" />
                         </form>
@@ -22,10 +31,9 @@ const FeedbackModal = ({ id, label }) => {
                         <button
                             type="button"
                             className="btn btn-primary elegant-btn-primary"
-
-                        // onclick="sendGeneralFeedback()"
+                            onClick={() => sendFeedbackAPI(feedback, setFeedback)}
                         >
-                            Verzenden
+                            {loading ? 'Sending...' : 'Verzenden'}
                         </button>
                     </div>
                 </div>

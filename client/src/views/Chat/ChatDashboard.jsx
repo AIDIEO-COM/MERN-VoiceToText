@@ -6,13 +6,22 @@ import ChatHeadAudio from './components/Layouts/ChatHeadAudio'
 import ResponseFeedbackModal from './partials/ResponseFeedbackModal'
 import { modalData } from '../../configs/constants'
 import { getFromLocalStorage } from '../../hooks/helpers'
+import { atomToken } from '../../configs/states/atomState'
+import { useAtom } from 'jotai'
+import { axiosPOST } from '../../hooks/axiosMethods'
+import toast from 'react-hot-toast'
 
 const ChatDashboard = () => {
+
+    // global
+    const [token] = useAtom(atomToken);
 
     // states
     const [textContent, setTextContent] = useState([]);
     const [textbox, setTextbox] = useState({ propertyOne: '', propertyTwo: '', propertyThree: '', propertyFour: '', propertyFive: '' });
     const [apiCallSuccess, setApiCalSuccess] = useState(false);
+
+    const [loading, setLoading] = useState('');
 
     // setting state after success api
     useEffect(() => {
@@ -39,6 +48,30 @@ const ChatDashboard = () => {
             setTextContent([]);
         }
     }, [textContent])
+
+    // feedback api
+    const sendFeedbackAPI = async (feedback, setFeedback) => {
+
+        if (!feedback.length) {
+            toast.error('Give the feedback input!');
+            return
+        }
+
+        try {
+            // getting data
+            const getPOST = await axiosPOST('feedback', { feedback }, setLoading, token);
+
+            // if success
+            if (getPOST.success) {
+                setFeedback('');
+                toast.success(getPOST.message);
+            }
+
+        } catch (error) {
+            setLoading(false);
+            toast.error(`${error.response.data.message}`);
+        }
+    }
 
     return (
         <ChatDashboardWrap>
@@ -104,11 +137,16 @@ const ChatDashboard = () => {
                     title={`Feedback voor ${modal.title}`}
                     id={`feedbackModal${index + 1}`}
                     label={`feedbackModal${index + 1}Label`}
+                    loading={loading}
+                    sendFeedbackAPI={sendFeedbackAPI}
                 />
             ))}
 
             {/* send feedback */}
-            <SendFeedBack />
+            <SendFeedBack
+                loading={loading}
+                sendFeedbackAPI={sendFeedbackAPI}
+            />
 
         </ChatDashboardWrap>
     )

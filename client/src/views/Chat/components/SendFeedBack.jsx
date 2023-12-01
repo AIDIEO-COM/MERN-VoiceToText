@@ -1,6 +1,11 @@
+import { useState } from 'react';
 import FeedbackModal from '../partials/FeedbackModal'
 
-const SendFeedBack = () => {
+const SendFeedBack = ({ loading, sendFeedbackAPI }) => {
+
+    // states
+    const [feedback, setFeedback] = useState('');
+
     return (
         <div>
             <div className="text-center mt-4">
@@ -16,6 +21,10 @@ const SendFeedBack = () => {
             <FeedbackModal
                 id='feedbackModal'
                 label='feedbackModalLabel'
+                feedback={feedback}
+                setFeedback={setFeedback}
+                loading={loading}
+                sendFeedbackAPI={sendFeedbackAPI}
             />
         </div>
     )

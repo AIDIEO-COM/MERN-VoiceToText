@@ -30,7 +30,7 @@ const SummaryBox = ({ label, id, value, onChange, apiCallSuccess, modalId }) => 
                     <i className="far fa-copy"></i>
                 </button>
 
-                {apiCallSuccess && <button
+                {(apiCallSuccess || value) && <button
                     type="button"
                     className="feedback-button"
                     data-bs-toggle="modal"

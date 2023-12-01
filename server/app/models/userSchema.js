@@ -4,11 +4,11 @@ import bcrypt from 'bcryptjs';
 const userSchema = new Schema({
     username: {
         type: String,
-        required: [true, 'Username filed is required']
+        required: [true, 'Username field is required']
     },
     password: {
         type: String,
-        required: [true, 'Password filed is required'],
+        required: [true, 'Password field is required'],
     },
     isActive: {
         type: Boolean,
