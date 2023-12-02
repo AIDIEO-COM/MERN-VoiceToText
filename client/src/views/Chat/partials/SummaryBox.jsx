@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-const SummaryBox = ({ label, id, value, onChange, apiCallSuccess, modalId }) => {
+const SummaryBox = ({ label, id, value, onChange, apiCallSuccess, handleShow, modalId }) => {
 
     // ref textarea
     const textareaRef = useRef(null);
@@ -33,8 +33,7 @@ const SummaryBox = ({ label, id, value, onChange, apiCallSuccess, modalId }) => 
                 {(apiCallSuccess || value) && <button
                     type="button"
                     className="feedback-button"
-                    data-bs-toggle="modal"
-                    data-bs-target={modalId}
+                    onClick={() => handleShow(modalId)}
                 >
                     <i className="fas fa-comment-dots" style={{ marginRight: '3px' }}></i>
                     Feedback

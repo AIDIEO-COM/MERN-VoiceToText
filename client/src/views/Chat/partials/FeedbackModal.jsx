@@ -1,7 +1,7 @@
 
-const FeedbackModal = ({ feedback, id, label, loading, setFeedback, sendFeedbackAPI }) => {
+const FeedbackModal = ({ feedback, id, label, loading, setFeedback, sendFeedbackAPI, modalRef }) => {
     return (
-        <div className="modal fade" id={id} tabIndex="-1" aria-labelledby={label} aria-hidden="true">
+        <div className="modal fade" id={id} tabIndex="-1" aria-labelledby={label} aria-hidden="true" ref={modalRef}>
             <div className="modal-dialog modal-dialog-centered modal-lg">
                 <div className="modal-content elegant-modal">
                     <div className="modal-header elegant-modal-header">

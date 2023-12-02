@@ -3,13 +3,13 @@ import SendFeedBack from './components/SendFeedBack'
 import SummaryBox from './partials/SummaryBox'
 import { useEffect, useState } from 'react'
 import ChatHeadAudio from './components/Layouts/ChatHeadAudio'
-import ResponseFeedbackModal from './partials/ResponseFeedbackModal'
 import { modalData } from '../../configs/constants'
 import { getFromLocalStorage } from '../../hooks/helpers'
 import { atomToken } from '../../configs/states/atomState'
 import { useAtom } from 'jotai'
 import { axiosPOST } from '../../hooks/axiosMethods'
 import toast from 'react-hot-toast'
+import ReactResponseModal from './partials/ReactResponseModal'
 
 const ChatDashboard = () => {
 
@@ -22,6 +22,16 @@ const ChatDashboard = () => {
     const [apiCallSuccess, setApiCalSuccess] = useState(false);
 
     const [loading, setLoading] = useState('');
+
+    const [selectedModal, setSelectedModal] = useState(null);
+    const [modalShow, setModalShow] = useState(false);
+
+    // handler
+    const handleShow = (modalId) => {
+        setModalShow(true);
+        setSelectedModal(modalId);
+    };
+    const handleClose = () => setModalShow(false);
 
     // setting state after success api
     useEffect(() => {
@@ -50,7 +60,7 @@ const ChatDashboard = () => {
     }, [textContent])
 
     // feedback api
-    const sendFeedbackAPI = async (feedback, setFeedback) => {
+    const sendFeedbackAPI = async (feedback, setFeedback, handleClose) => {
 
         if (!feedback.length) {
             toast.error('Give the feedback input!');
@@ -65,6 +75,7 @@ const ChatDashboard = () => {
             if (getPOST.success) {
                 setFeedback('');
                 toast.success(getPOST.message);
+                handleClose();
             }
 
         } catch (error) {
@@ -88,57 +99,58 @@ const ChatDashboard = () => {
                     label='Hulpvraag patiënt (of contactreden)'
                     id='textbox1'
                     value={textbox.propertyOne}
-                    // onChange={(e) => setTextbox({ ...textbox, propertyOne: e.target.value })}
                     apiCallSuccess={apiCallSuccess}
-                    modalId='#feedbackModal1'
+                    handleShow={handleShow}
+                    modalId='feedbackModal1'
                 />
 
                 <SummaryBox
                     label='Functioneringsproblemen en beloop'
                     id='textbox2'
                     value={textbox.propertyTwo}
-                    // onChange={(e) => setTextbox({ ...textbox, propertyTwo: e.target.value })}
                     apiCallSuccess={apiCallSuccess}
-                    modalId='#feedbackModal2'
+                    handleShow={handleShow}
+                    modalId='feedbackModal2'
                 />
 
                 <SummaryBox
                     label='Medische gezondheidsdeterminanten'
                     id='textbox3'
                     value={textbox.propertyThree}
-                    // onChange={(e) => setTextbox({ ...textbox, propertyThree: e.target.value })}
                     apiCallSuccess={apiCallSuccess}
-                    modalId='#feedbackModal3'
+                    handleShow={handleShow}
+                    modalId='feedbackModal3'
                 />
 
                 <SummaryBox
                     label='Omgevingsdeterminanten'
                     id='textbox4'
                     value={textbox.propertyFour}
-                    // onChange={(e) => setTextbox({ ...textbox, propertyFour: e.target.value })}
                     apiCallSuccess={apiCallSuccess}
-                    modalId='#feedbackModal4'
+                    handleShow={handleShow}
+                    modalId='feedbackModal4'
                 />
 
                 <SummaryBox
                     label='Persoonlijke determinanten'
                     id='textbox5'
                     value={textbox.propertyFive}
-                    // onChange={(e) => setTextbox({ ...textbox, propertyFive: e.target.value })}
                     apiCallSuccess={apiCallSuccess}
-                    modalId='#feedbackModal5'
+                    handleShow={handleShow}
+                    modalId='feedbackModal5'
                 />
             </div>
 
             {/* feed back modal */}
-            {modalData.map((modal, index) => (
-                <ResponseFeedbackModal
-                    key={`fedd${index}`}
-                    title={`Feedback voor ${modal.title}`}
-                    id={`feedbackModal${index + 1}`}
-                    label={`feedbackModal${index + 1}Label`}
+            {modalData.map((modal) => (
+                <ReactResponseModal
+                    key={modal.id}
+                    title={modal.title}
                     loading={loading}
                     sendFeedbackAPI={sendFeedbackAPI}
+                    handleClose={handleClose}
+                    show={modalShow && modal.id === selectedModal}
+                    modalId={modal.id}
                 />
             ))}
 
@@ -147,7 +159,6 @@ const ChatDashboard = () => {
                 loading={loading}
                 sendFeedbackAPI={sendFeedbackAPI}
             />
-
         </ChatDashboardWrap>
     )
 }
