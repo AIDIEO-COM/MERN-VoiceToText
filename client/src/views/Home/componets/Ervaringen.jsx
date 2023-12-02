@@ -1,8 +1,9 @@
 
 const Ervaringen = () => {
     return (
-        <section id="ervaringen" data-w-id="aedc08d9-087c-6779-cbd7-c802287c773c" className="testimonial-section">
+        <section data-aos="fade-up" id="ervaringen" data-w-id="aedc08d9-087c-6779-cbd7-c802287c773c" className="testimonial-section">
             <div
+            data-aos="fade-up"
                 style={{
                     // opacity: 0,
                     WebkitTransform: 'translate3d(0, 50%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)',
