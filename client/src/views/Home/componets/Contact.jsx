@@ -1,8 +1,9 @@
 
 const Contact = () => {
     return (
-        <section id="contact" className="learning-today-section">
+        <section  id="contact" className="learning-today-section">
             <div
+            data-aos="fade-up"
                 data-w-id="7f0c7d40-aad9-4671-ae2c-1c1bf4d4fc8d"
                 style={{
                     // opacity: 0,

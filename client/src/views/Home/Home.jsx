@@ -13,7 +13,19 @@ import Voordelen from "./componets/Voordelen"
 import Ervaringen from "./componets/Ervaringen"
 import Faq from "./componets/Faq"
 
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { useEffect } from 'react';
+
 const Home = () => {
+
+  useEffect(()=>{
+    AOS.init({
+      // once: true,
+    })
+    AOS.refresh();
+
+  },[])
   return (
     <>
 
