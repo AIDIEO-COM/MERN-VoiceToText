@@ -1,7 +1,8 @@
 
 const Banner = () => {
     return (
-        <header id="banner" data-w-id="2d04cc36-9470-def7-6d38-4376e157814d" className="hero-section">
+        <header data-aos="fade-down"
+        data-aos-duration="200" id="banner" data-w-id="2d04cc36-9470-def7-6d38-4376e157814d" className="hero-section">
             <div className="custom-container">
                 <div className="w-layout-grid banner-grid">
                     <div id="w-node-_2e26540b-db34-503c-dd8c-cc4db4113f74-cf4aff70" className="banner-content">
