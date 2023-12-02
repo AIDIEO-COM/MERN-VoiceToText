@@ -2,7 +2,7 @@ import AudioReactRecorder from 'audio-react-recorder';
 import { useEffect, useState } from 'react';
 import { axiosPOST } from '../../../../hooks/axiosMethods';
 import { useAtom } from 'jotai';
-import { atomToken } from '../../../../configs/states/atomState';
+import { atomToken, atomUser } from '../../../../configs/states/atomState';
 import { ENUM_STATUS } from '../../../../configs/constants';
 import StatusMessages from '../../partials/StatusMessages';
 import { setOnLocalStorage } from '../../../../hooks/helpers';
@@ -11,6 +11,7 @@ const ChatHeadAudio = ({ apiCallSuccess, setApiCalSuccess, setTextContent }) => 
 
     // atom states
     const [token] = useAtom(atomToken);
+    const [user] = useAtom(atomUser);
 
     // states
     // eslint-disable-next-line no-unused-vars
@@ -86,56 +87,60 @@ const ChatHeadAudio = ({ apiCallSuccess, setApiCalSuccess, setTextContent }) => 
                 <img src="/images/text_only_blue.png" alt="Fysio.AI Logo" className="header-logo" />
             </div>
 
-            <AudioReactRecorder
-                state={recordState}
-                onStop={onSave}
-                canvasWidth={0}
-                canvasHeight={0}
-            />
+            {!user?.isActive ? <></> : <>
+                <AudioReactRecorder
+                    state={recordState}
+                    onStop={onSave}
+                    canvasWidth={0}
+                    canvasHeight={0}
+                />
 
-            <div className="button-group mt-4 mb-4 text-center">
+                <div className="button-group mt-4 mb-4 text-center">
 
-                {recordState === ENUM_STATUS.NONE && <button
-                    id="startButton"
-                    className="control-btn start-btn"
-                    title="Klik om de opname te starten"
-                    onClick={startRecording}
-                >
-                    <i className="fas fa-play"></i>Start Opname
-                </button>}
-
-                {recordState === ENUM_STATUS.START && <>
-                    <button
-                        id="pauseButton"
-                        className="control-btn pause-btn"
-                        title="Klik om de opname te pauzeren"
-                        onClick={pauseRecording}
-                    >
-                        <i className="fas fa-pause"></i>Pauzeer Opname
-                    </button>
-                </>}
-
-                {recordState === ENUM_STATUS.PAUSE && <>
-                    <button
-                        id="resumeButton"
-                        className="control-btn resume-btn"
-                        title="Klik hier om door te gaan met de huidige opname"
+                    {recordState === ENUM_STATUS.NONE && <button
+                        id="startButton"
+                        className="control-btn start-btn"
+                        title="Klik om de opname te starten"
                         onClick={startRecording}
                     >
-                        <i className="fas fa-play"></i>Doorgaan met Opnemen
-                    </button>
+                        <i className="fas fa-play"></i>Start Opname
+                    </button>}
+
+                    {recordState === ENUM_STATUS.START && <>
+                        <button
+                            id="pauseButton"
+                            className="control-btn pause-btn"
+                            title="Klik om de opname te pauzeren"
+                            onClick={pauseRecording}
+                        >
+                            <i className="fas fa-pause"></i>Pauzeer Opname
+                        </button>
+                    </>}
+
+                    {recordState === ENUM_STATUS.PAUSE && <>
+                        <button
+                            id="resumeButton"
+                            className="control-btn resume-btn"
+                            title="Klik hier om door te gaan met de huidige opname"
+                            onClick={startRecording}
+                        >
+                            <i className="fas fa-play"></i>Doorgaan met Opnemen
+                        </button>
 
 
-                    <button
-                        id="stopButton"
-                        className="control-btn stop-btn"
-                        title="Klik hier om de opname te stoppen en op te slaan"
-                        onClick={stopRecording}
-                    >
-                        <i className="fas fa-stop"></i>Stop Opname en maak samenvatting
-                    </button>
-                </>}
-            </div>
+                        <button
+                            id="stopButton"
+                            className="control-btn stop-btn"
+                            title="Klik hier om de opname te stoppen en op te slaan"
+                            onClick={stopRecording}
+                        >
+                            <i className="fas fa-stop"></i>Stop Opname en maak samenvatting
+                        </button>
+                    </>}
+                </div>
+            </>}
+
+
 
             <div className="language-selection mt-4 mb-4 text-center">
                 <div className="form-check form-check-inline">

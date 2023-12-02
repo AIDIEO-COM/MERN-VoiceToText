@@ -66,6 +66,7 @@ const SignUp = () => {
                                             type="text"
                                             name="username"
                                             className="form-control"
+                                            value={username}
                                             onChange={(e) => setUsername(e.target.value)}
                                             required
                                         />
@@ -77,6 +78,7 @@ const SignUp = () => {
                                             type="password"
                                             name="password"
                                             className="form-control"
+                                            value={password}
                                             onChange={(e) => setPassword(e.target.value)}
                                             required
                                         />

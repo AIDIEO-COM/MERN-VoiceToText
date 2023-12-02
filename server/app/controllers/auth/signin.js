@@ -16,9 +16,6 @@ const signin = catchAsync(
         const user = await User.findOne({ username: req.body.username }).lean();
         if (!user) throw new ApiError(httpStatus.NOT_FOUND, 'Information mismatched!');
 
-        // checking is user active
-        if (!user.isActive) throw new ApiError(httpStatus.NOT_FOUND, 'You are not active member!');
-
         // checking is valid password
         const isValidPassword = await bcrypt.compareSync(req.body.password, user.password);
         if (!isValidPassword) throw new ApiError(httpStatus.UNAUTHORIZED, 'Credential mismatch!');

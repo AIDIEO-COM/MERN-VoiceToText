@@ -18,14 +18,14 @@
 .navbar-nav .nav-link {
     font-size: 1.1rem;
     font-weight: 500;
-    color: #777;
+    color: #777 !important;
     padding: 0.6rem 1.5rem;
     transition: color 0.3s ease;
 }
 
 .navbar-nav .nav-link:hover,
 .navbar-nav .nav-link.active {
-    color: #0389ff;
+    color: #0389ff !important;
     /* Light blue to match the theme */
 }
 
