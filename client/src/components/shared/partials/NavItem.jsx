@@ -14,7 +14,7 @@ const NavItem = ({ item }) => {
             )}>
                 {item.text}
             </a>
-        </li>
+        </li >
     )
 }
 
