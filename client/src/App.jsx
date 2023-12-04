@@ -20,7 +20,6 @@ function App() {
   // checking authentication
   if (!authChecked) return <div style={{ textAlign: 'center' }}>Checking authentication....</div>
 
- 
   return (
     <>
       <Routes>

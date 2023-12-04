@@ -19,15 +19,15 @@ import { useEffect } from 'react';
 
 const Home = () => {
 
-  useEffect(()=>{
+  useEffect(() => {
     AOS.init({
       // once: true,
     })
     AOS.refresh();
 
-  },[])
+  }, [])
   return (
-    <>
+    <div style={{ background: 'white' }}>
 
       <Navbar />
 
@@ -44,7 +44,7 @@ const Home = () => {
       <Contact />
 
       <Footer />
-    </ >
+    </div>
   )
 }
 
