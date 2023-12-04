@@ -25,13 +25,14 @@ const removeFile = (path) => {
 }
 
 // get text from the audio
-const getAudioToText = async (path, fileName) => {
+const getAudioToText = async (path, fileName, languageCode) => {
     try {
         const audioData = fs.readFileSync(path);
 
         const formData = new FormData();
         formData.append('file', audioData, { filename: fileName });
         formData.append('model', 'whisper-1');
+        formData.append('language', languageCode);
 
         const response = await axios.post(apiUrl, formData, {
             headers: {
@@ -42,6 +43,7 @@ const getAudioToText = async (path, fileName) => {
 
         return response.data.text;
     } catch (error) {
+        // console.log(error);
         throw new ApiError(httpStatus.BAD_REQUEST, 'Error during audio transcription');
     }
 }
@@ -137,6 +139,7 @@ const CreateChat = catchAsync(
         const filePath = req.file.path;
         const fileName = req.file.filename;
         const fileSizeInMB = req.file.size / (1024 * 1024);
+        const language = req.body.language;
 
         let text;
         let totalChunk;
@@ -149,7 +152,7 @@ const CreateChat = catchAsync(
             // Transcribe each chunk and append to fullText
             for (let i = 1; i <= totalChunk; i++) {
                 const chunkFilePath = `public/output/chunk_${i}.wav`;
-                const chunkText = await getAudioToText(chunkFilePath, `chunk_${i}.wav`);
+                const chunkText = await getAudioToText(chunkFilePath, `chunk_${i}.wav`, language);
                 fullText += chunkText + ' '; // Assuming you want a space between chunk texts
             }
 
@@ -157,7 +160,7 @@ const CreateChat = catchAsync(
             text = fullText.trim();
         } else {
             // getting text from audio
-            text = await getAudioToText(filePath, fileName);
+            text = await getAudioToText(filePath, fileName, language);
         }
 
         // promtmsg

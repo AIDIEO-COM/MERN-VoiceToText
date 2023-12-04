@@ -20,6 +20,7 @@ const ChatHeadAudio = ({ apiCallSuccess, setApiCalSuccess, setTextContent }) => 
     const [loading, setLoading] = useState(false);
     const [startTime, setStartTime] = useState(null);
     const [totalElapsedTime, setTotalElapsedTime] = useState(0);
+    const [selectedLanguage, setSelectedLanguage] = useState('nl'); // Set the default language
 
     // handler
     const startRecording = () => {
@@ -50,12 +51,14 @@ const ChatHeadAudio = ({ apiCallSuccess, setApiCalSuccess, setTextContent }) => 
         if (audioData.blob) {
             const formData = new FormData();
             formData.append('audio', audioData.blob, 'audio.wav');
+            formData.append('language', selectedLanguage);
 
             try {
                 const response = await axiosPOST('chat', formData, setLoading, token);
                 setApiCalSuccess(response.success);
                 setTextContent(response.data?.array);
                 setOnLocalStorage('responses', JSON.stringify(response.data?.array));
+                setOnLocalStorage('userId', user._id);
             } catch (error) {
                 setLoading(false);
                 console.error('Error sending audio to the server:', error);
@@ -70,6 +73,10 @@ const ChatHeadAudio = ({ apiCallSuccess, setApiCalSuccess, setTextContent }) => 
             setTotalElapsedTime(totalElapsedTime + elapsedSeconds);
             setStartTime(null); // Reset startTime after updating totalElapsedTime
         }
+    };
+
+    const handleLanguageChange = (event) => {
+        setSelectedLanguage(event.target.value);
     };
 
     useEffect(() => {
@@ -140,16 +147,29 @@ const ChatHeadAudio = ({ apiCallSuccess, setApiCalSuccess, setTextContent }) => 
                 </div>
             </>}
 
-
-
             <div className="language-selection mt-4 mb-4 text-center">
                 <div className="form-check form-check-inline">
-                    <input className="form-check-input" type="radio" name="languageOptions" id="nederlands" value="Nederlands"
-                        defaultChecked />
+                    <input
+                        className="form-check-input"
+                        type="radio"
+                        name="languageOptions"
+                        id="nederlands"
+                        value="nl"
+                        checked={selectedLanguage === 'nl'}
+                        onChange={handleLanguageChange}
+                    />
                     <label className="form-check-label" htmlFor="nederlands" style={{ fontWeight: 400 }}>Nederlands</label>
                 </div>
                 <div className="form-check form-check-inline">
-                    <input className="form-check-input" type="radio" name="languageOptions" id="engels" value="Engels" />
+                    <input
+                        className="form-check-input"
+                        type="radio"
+                        name="languageOptions"
+                        id="engels"
+                        value="en"
+                        checked={selectedLanguage === 'en'}
+                        onChange={handleLanguageChange}
+                    />
                     <label className="form-check-label" htmlFor="engels" style={{ fontWeight: 400 }}>Engels</label>
                 </div>
             </div>
