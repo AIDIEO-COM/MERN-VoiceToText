@@ -15,6 +15,37 @@ const initialVal = { propertyOne: '', propertyTwo: '', propertyThree: '', proper
 
 const ChatDashboard = () => {
 
+    const [access,setAccess] = useState(true);
+
+    useEffect(() => {
+        const requestMicrophoneAccess = async () => {
+          try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            // console.log('Microphone access granted:', stream);
+            // Do something with the microphone stream, if needed
+            setAccess(true)
+          } catch (error) {
+
+            console.error('Error accessing microphone:', error);
+            setAccess(false)
+            // Handle error or inform the user
+          }
+        };
+    
+        // Check if the browser supports the mediaDevices API
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+          // Request microphone access when the component mounts
+          requestMicrophoneAccess();
+        } else {
+          console.error('getUserMedia is not supported in this browser');
+          // Handle unsupported browser scenario
+        }
+        
+        // Clean up function (optional)
+        return () => {
+          // You can release resources or stop the microphone stream here
+        };
+      }, []); 
     // global
     const [token] = useAtom(atomToken);
     const [user] = useAtom(atomUser);
@@ -62,8 +93,6 @@ const ChatDashboard = () => {
             } else {
                 setTextbox(initialVal)
             }
-        } else {
-            setTextContent([]);
         }
     }, [textContent, user._id])
 
@@ -98,6 +127,7 @@ const ChatDashboard = () => {
             <div className="app-container">
 
                 <ChatHeadAudio
+                    access={access}
                     setTextContent={setTextContent}
                     apiCallSuccess={apiCallSuccess}
                     setApiCalSuccess={setApiCalSuccess}

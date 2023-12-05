@@ -7,7 +7,7 @@ import { ENUM_STATUS } from '../../../../configs/constants';
 import StatusMessages from '../../partials/StatusMessages';
 import { setOnLocalStorage } from '../../../../hooks/helpers';
 
-const ChatHeadAudio = ({ apiCallSuccess, setApiCalSuccess, setTextContent }) => {
+const ChatHeadAudio = ({ apiCallSuccess, setApiCalSuccess, setTextContent, access }) => {
 
     // atom states
     const [token] = useAtom(atomToken);
@@ -109,6 +109,7 @@ const ChatHeadAudio = ({ apiCallSuccess, setApiCalSuccess, setTextContent }) => 
                         className="control-btn start-btn"
                         title="Klik om de opname te starten"
                         onClick={startRecording}
+                        disabled={!access}
                     >
                         <i className="fas fa-play"></i>Start Opname
                     </button>}
@@ -172,6 +173,9 @@ const ChatHeadAudio = ({ apiCallSuccess, setApiCalSuccess, setTextContent }) => 
                     />
                     <label className="form-check-label" htmlFor="engels" style={{ fontWeight: 400 }}>Engels</label>
                 </div>
+
+                {!access && <div className="mt-3 mb-3 text-center warning-message">
+                    Require microphone access to record audio.</div>}
             </div>
 
             {/* <div className="mt-3 mb-3 text-center">
