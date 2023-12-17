@@ -1,7 +1,6 @@
 import { checkpoints } from "../../../configs/constants"
 
-
-const Voordelen = () => {
+const CVoordelen = () => {
     return (
         <section id="voordelen" className="course-include-section">
             <div className="course-includes-background"></div>
@@ -9,6 +8,7 @@ const Voordelen = () => {
                 <div className="w-layout-grid two-column-grid">
                     <div
                         data-aos="fade-right"
+                        data-aos-duration="1000"
                         id="w-node-_5b273204-eab4-75f5-b636-fa663ee7fdf3-cf4aff70"
                         data-w-id="5b273204-eab4-75f5-b636-fa663ee7fdf3"
                         // style={{ opacity: 0 }}
@@ -47,7 +47,8 @@ const Voordelen = () => {
                         </div>
                     </div>
                     <div
-                    data-aos="fade-left"
+                        data-aos="fade-left"
+                        data-aos-duration="1000"
                         id="w-node-_53e795a1-4f68-ad5d-1c4e-8a8ee1a1afef-cf4aff70"
                         data-w-id="53e795a1-4f68-ad5d-1c4e-8a8ee1a1afef"
                         // style={{ opacity: 0 }}
@@ -80,4 +81,4 @@ const Voordelen = () => {
     )
 }
 
-export default Voordelen
+export default CVoordelen

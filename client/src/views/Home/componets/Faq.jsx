@@ -6,16 +6,8 @@ const Faq = () => {
     const [menus, setMenus] = useState([false, false]);
 
     return (
-        <section id="qa" data-w-id="f75c743f-5b9b-008e-95b0-0b8ddd576620" className="faq-section" style={{ marginTop: '400px' }}>
-            <div
-                style={{
-                    // opacity: 0,
-                    // WebkitTransform: 'translate3d(0, 50%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)',
-                    // MozTransform: 'translate3d(0, 50%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)',
-                    // msTransform: 'translate3d(0, 50%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)',
-                    // transform: 'translate3d(0, 50%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)',
-                }}
-                className="container">
+        <section id="qa" className="faq-section" data-aos="fade-up">
+            <div className="container">
                 <div className="faq-wrapper">
 
                     <div className="faq-heading-paragraph-wrapper">

@@ -9,13 +9,13 @@ import '../../styles/webflow.css'
 import '../../styles/tims.css'
 import '../../styles/landing-main.css'
 
-import Voordelen from "./componets/Voordelen"
 import Ervaringen from "./componets/Ervaringen"
 import Faq from "./componets/Faq"
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect } from 'react';
+import CVoordelen from "./componets/CVoordelen"
 
 const Home = () => {
 
@@ -35,7 +35,7 @@ const Home = () => {
 
       <Aanpak />
 
-      <Voordelen />
+      <CVoordelen />
 
       <Ervaringen />
 

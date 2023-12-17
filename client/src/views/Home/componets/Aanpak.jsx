@@ -3,7 +3,7 @@ const Aanpak = () => {
     return (
         <aside id="aanpak" className="what-will-learn-section" >
             <div data-w-id="fa7c9384-7b22-0d45-df68-c2c65ccb0e95" className="container">
-                <div className="vertical-middle-allign-wrapper" data-aos="fade-up">
+                <div className="vertical-middle-allign-wrapper" data-aos="fade-up" data-aos-duration="1000">
 
 
                     <div className="section-headings-wrapper">

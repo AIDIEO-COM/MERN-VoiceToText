@@ -14,28 +14,14 @@ const Ervaringen = () => {
         <section data-aos="fade-up" id="ervaringen" data-w-id="aedc08d9-087c-6779-cbd7-c802287c773c" className="testimonial-section">
             <div
                 data-aos="fade-up"
-                style={{
-                    // opacity: 0,
-                    WebkitTransform: 'translate3d(0, 50%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)',
-                    MozTransform: 'translate3d(0, 50%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)',
-                    msTransform: 'translate3d(0, 50%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)',
-                    transform: 'translate3d(0, 50%, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)',
-                }}
                 className="custom-container">
                 <div className="testimonial-heading-and-svg">
                     <div className="horizaontal-div gap">
                         <h2 className="section-heading testimonial-heading">Onze meest tevreden klanten delen hun ervaringen!</h2>
                         <img
                             src="/images/Arrow_8Arrow_07.webp" loading="lazy"
-                            // style={{
-                            //     WebkitTransform: 'translate3d(0, 0, 0) scale3d(0, 0, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)',
-                            //     MozTransform: 'translate3d(0, 0, 0) scale3d(0, 0, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)',
-                            //     msTransform: 'translate3d(0, 0, 0) scale3d(0, 0, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)',
-                            //     transform: 'translate3d(0, 0, 0) scale3d(0, 0, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)',
-                            // }}
                             width="130.5"
                             alt=""
-                            // data-w-id="8daec031-388b-2c9f-21b1-2385c8f7c4c1"
                             className="arrow-image"
                         />
                         <img
